@@ -1,7 +1,7 @@
 {
-  "name": "zw-player",
+  "name": "zt-player",
   "version": "1.0.3",
-  "description": "a web music player",
+  "description": "a web music player base on Vue.js, the origin name is zw-player",
   "main": "player.vue",
   "scripts": {
     "build": "npx webpack --config examples/webpack.config.js",
@@ -16,7 +16,7 @@
     "component",
     "web"
   ],
-  "author": "956661947@qq.com",
+  "author": "zerotower@163.com",
   "license": "ISC",
   "dependencies": {
     "jquery": "^3.4.1",
