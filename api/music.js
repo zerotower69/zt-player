@@ -38,3 +38,8 @@ export const getSongDetail = (ids) => {
     }
     return axios.get(`/song/detail?ids=${ids}`)
 }
+
+//获取歌单详情
+export const getPlayListDetail = (id) => {
+    return axios.get(`/playlist/detail?id=${id}`)
+}

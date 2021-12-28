@@ -37,7 +37,11 @@
                 />
                 <transition name="music_search">
                   <ul class="search_list" v-if="musicSearchVal != ''">
-                    <li v-for="item in musicSearchList" @click="ListAdd(item)">
+                    <li
+                      v-for="item in musicSearchList"
+                      @click="ListAdd(item)"
+                      :key="item.id ? item.id : item.name"
+                    >
                       <span class="music_search_name">{{ item.name }}</span>
                       <span class="music_search_ar">{{
                         item.artists[0].name
@@ -55,6 +59,7 @@
                 v-for="(item, index) in thisMusicList"
                 @mouseover="ButtonActive(index)"
                 @dblclick="ListPlay((thisListPage - 1) * 10 + index)"
+                :key="item.id"
               >
                 <div
                   class="this_music_shlter"
@@ -147,7 +152,7 @@
                 v-for="(item, index) in musicWords"
                 class="music_word"
                 :class="{ word_highlight: wordIndex == index }"
-                :key="Symbol(item)"
+                :key="item"
               >
                 {{ item }}
               </li>
@@ -185,6 +190,7 @@ import {
   getSongDetail,
   getSearchSuggest,
   getNewSongs,
+  getPlayListDetail,
 } from "./api/music";
 import pan from "./img/pan.png";
 import play from "./img/play.png";
@@ -228,10 +234,11 @@ export default {
       listButtonActiveIndex: -1,
       thisListPage: 1,
       musicTypeList: [
-        { name: "热歌榜", id: 1 },
-        { name: "新歌榜", id: 0 },
-        { name: "飙升榜", id: 3 },
-        { name: "嘻哈榜", id: 18 },
+        { name: "热歌榜", id: 3778678 },
+        { name: "新歌榜", id: 3779629 },
+        { name: "飙升榜", id: 19723756 },
+        { name: "原创榜", id: 2884035 },
+        { name: "网络热歌榜", id: 6723173524 },
         { name: "My Songs", id: -1 },
       ],
       thisMusicType: -1,
@@ -249,7 +256,7 @@ export default {
     this.Player();
   },
   created() {
-    this._getMusicType(1);
+    this._getMusicType(this.musicTypeList[0].id);
     this.DisAuthorInfo(); //禁删~感谢配合
   },
   computed: {
@@ -276,7 +283,11 @@ export default {
     //禁删~感谢配合
     DisAuthorInfo() {
       console.log(
-        "%c音乐播放器作者----仲威，博客地址：https://blogme.top",
+        "%c音乐播放器改进版本 作者----ZeroTower，博客地址：https://www.zerotower.cn",
+        "background-color:rgb(30,30,30);border-radius:4px;font-size:12px;padding:4px;color:rgb(220,208,129);"
+      );
+      console.log(
+        "%c音乐播放器原作者----仲威，博客地址：https://blogme.top",
         "background-color:rgb(30,30,30);border-radius:4px;font-size:12px;padding:4px;color:rgb(220,208,129);"
       );
     },
@@ -375,27 +386,20 @@ export default {
                        日本:8
                        韩国:16
                      */
-          getNewSongs(7).then((res) => {
-            const allSongsId = res.data.data.map((item) => item.id) || [];
-            if (allSongsId.length === 0) {
-              console.log("Cann't get the Song!");
-              return;
+          getPlayListDetail(id).then((res) => {
+            this.musicList = res.data.playlist.tracks || [];
+            this.thisMusicType = id; //这是什么类型的音乐
+            this.thisMusicIndex = 0;
+            this.thisListPage = 1;
+            this._getInfo();
+            this.top = 0;
+            this.o = 0;
+            this.wordIndex = 0;
+            this.wordsTop = 0;
+            this.currentProgress = "0%";
+            if (!this.playState) {
+              $(".control_icon").click();
             }
-            getSongDetail(allSongsId).then((resp) => {
-              this.musicList = resp.data.songs || [];
-              this.thisMusicType = "华语"; //这是什么类型的音乐
-              this.thisMusicIndex = 0;
-              this.thisListPage = 1;
-              this._getInfo();
-              this.top = 0;
-              this.o = 0;
-              this.wordIndex = 0;
-              this.wordsTop = 0;
-              this.currentProgress = "0%";
-              if (!this.playState) {
-                $(".control_icon").click();
-              }
-            });
           });
         }
       }
