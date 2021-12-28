@@ -9,7 +9,7 @@
                 <div class="music_list">
                     <div class="list_l">
                         <ul class="music_type">
-                            <li v-for="item in musicTypeList" @click="_getMusicType(item.id)" :class="{type_active:item.id==thisMusicType}">{{item.name}}</li>
+                            <li v-for="item in musicTypeList" @click="_getMusicType(item.id)" :class="{type_active:item.id==thisMusicType}" :key="item.id">{{item.name}}</li>
                         </ul>
                         <div class="list_title">
                             <span style="font-size: 14px;">歌曲列表</span>
