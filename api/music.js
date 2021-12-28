@@ -20,3 +20,13 @@ export const getHotMusic = (id) => {
 export const getSearchSuggest = (key) => {
     return axios.get(`/search/suggest?keywords=${key}`)
 }
+
+//获取榜单的歌手
+export const getTopListArtist = (type) => {
+    return axios.get(`/toplist/artist?type=${type}`)
+}
+
+//新歌速递
+export const getNewSongs = (type) => {
+    return axios.get(`/top/song?type=${type}`)
+}

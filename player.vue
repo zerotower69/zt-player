@@ -93,7 +93,7 @@
     
 </template>
 <script>
-import { getWords,getMusicInfo,getMusicUrl,getHotMusic,getSearchSuggest } from './api/music'
+import { getWords,getMusicInfo,getMusicUrl,getHotMusic,getSearchSuggest,getNewSongs } from './api/music'
 import pan from './img/pan.png'
 import play from './img/play.png'
 import pause from './img/pause.png'
@@ -128,8 +128,8 @@ export default {
             wordsTop:0,
             wordIndex:0,
             currentProgress:'0%',
-            musicList:[],
-            myMusicList:[],   //存储在本地   可以开始判断有没有 让用户一开始就听这个列表
+            musicList:[],//接口中获取的歌
+            myMusicList:[],   //存储在本地的歌   可以开始判断有没有 让用户一开始就听这个列表
             thisMusicIndex:1,
             disActive:false,
             listIsDis:false,
@@ -276,9 +276,10 @@ export default {
                     }
                     
                 }else{
-                    getHotMusic(id).then((res)=>{
-                        this.musicList=res.data.playlist.tracks.splice(0,200);
-                        this.thisMusicType=id;
+                    //获取华语的最新歌曲
+                    getNewSongs(7).then((res)=>{
+                        this.musicList=res.data.data.map(item=>item.id) || [];
+                        this.thisMusicType='华语';  //这是什么类型的音乐
                         this.thisMusicIndex=0;
                         this.thisListPage=1;
                         this._getInfo();
