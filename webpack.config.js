@@ -32,8 +32,8 @@ module.exports = {
         proxy: {
             '/api': {
                 target: 'https://music.zerotower.cn',
-                changeOrigin: true,
-                // pathRewrite: { '^/api': '' },
+                // changeOrigin: true,
+                pathRewrite: { '^/api': '' },
                 secure: true
             }
         }

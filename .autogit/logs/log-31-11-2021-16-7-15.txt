@@ -1,0 +1,28 @@
+-------------------- Auto-Git Log --------------------
+		Fri Dec 31 2021 16:07:15 GMT+0800 (中国标准时间)
+------------------------------------------------------
+
+Modified files:
+* api/music.js
+* examples/index.html
+* webpack.config.js
+
+
+Created files:
+* .autogit/logs/log-31-11-2021-15-36-39.txt
+* dist/148842951f579120a2aa.png
+* dist/40be2d2869e173e63ae8.png
+* dist/41301c02e815796218b5.png
+* dist/4ba7b4e0bf6da2b46d4e.png
+* dist/797998e142e8ff47a1df.png
+* dist/c23e69b29a1885e7d310.png
+* dist/e05cac7123b25b582bbf.png
+* dist/f8469dca32b4ef3c14a1.png
+* dist/main.js
+* dist/main.js.LICENSE.txt
+
+
+Deleted files:
+
+
+Renamed files:
