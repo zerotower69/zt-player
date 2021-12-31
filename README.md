@@ -10,13 +10,11 @@ npm i zt-player
 
 ## 开发
 
-使用
+使用 `npm run dev`启动项目,为了解决跨域问题，
 
-```shell
-npm run build
-```
+请把api/music.js中的 `axios.defaults.baseURL`的值替换为 `'/api'(记得生产环境中改回https://music.zerotower.cn)`
 
-将修改的项目重新编译后再浏览器打开examples下的index.html文件，如果你使用VSCode，可以使用其Live Server功能来检验项目。
+如果你把接口部署到了自己的服务器，请使用自己的地址。
 
 ## 关于原作者
 

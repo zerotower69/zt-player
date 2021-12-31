@@ -1,5 +1,5 @@
 import axios from 'axios'
-axios.defaults.baseURL = process.env.baseURL
+axios.defaults.baseURL = "/api"
 //获取歌词
 export const getWords = (id) => {
     return axios.get(`/lyric?id=${id}`);

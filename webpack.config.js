@@ -28,6 +28,13 @@ module.exports = {
         hot: true,
         static: {
             directory: path.join(__dirname, 'examples'),
+        },
+        proxy: {
+            '/api': {
+                target: 'https://music.zerotower.cn',
+                changeOrigin: true,
+                pathRewrite: { '^/api': '' }
+            }
         }
     },
 }
