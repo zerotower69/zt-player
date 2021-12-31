@@ -21,5 +21,13 @@ module.exports = {
                 use: ['style-loader', 'css-loader'],
             }
         ]
-    }
+    },
+    devServer: {
+        host: 'localhost',
+        port: 8000,
+        hot: true,
+        static: {
+            directory: path.join(__dirname, 'examples'),
+        }
+    },
 }
