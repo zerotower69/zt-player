@@ -38,9 +38,9 @@
                 <transition name="music_search">
                   <ul class="search_list" v-if="musicSearchVal != ''">
                     <li
-                      v-for="item in musicSearchList"
+                      v-for="(item, index) in musicSearchList"
                       @click="ListAdd(item)"
-                      :key="item.id ? item.id : item.name"
+                      :key="item.id ? item.id : index"
                     >
                       <span class="music_search_name">{{ item.name }}</span>
                       <span class="music_search_ar">{{
@@ -152,7 +152,7 @@
                 v-for="(item, index) in musicWords"
                 class="music_word"
                 :class="{ word_highlight: wordIndex == index }"
-                :key="item"
+                :key="item + index"
               >
                 {{ item }}
               </li>

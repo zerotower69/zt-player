@@ -33,6 +33,10 @@
     "axios": "^0.19.0",
     "jquery": "^3.4.1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zerotower69/zt-player.git"
+  },
   "devDependencies": {
     "babel": "^6.23.0",
     "babel-core": "^6.26.3",
