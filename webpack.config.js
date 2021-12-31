@@ -33,7 +33,8 @@ module.exports = {
             '/api': {
                 target: 'https://music.zerotower.cn',
                 changeOrigin: true,
-                pathRewrite: { '^/api': '' }
+                // pathRewrite: { '^/api': '' },
+                secure: true
             }
         }
     },
