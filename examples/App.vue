@@ -18,5 +18,7 @@ export default {
 <style>
 #app {
   background-color: rgb(11, 208, 235);
+  width: 100vh;
+  height: 100vh;
 }
 </style>

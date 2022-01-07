@@ -64,7 +64,7 @@
   height: 100px;
   background-size: 100% 100%;
   position: absolute;
-  left: 200px;
+  left: -15px;
   top: 200px;
   padding: 16px;
   animation: pan 10s linear infinite;
