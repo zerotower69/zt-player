@@ -1,6 +1,6 @@
 {
   "name": "zt-player",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "a web music player base on Vue.js, the origin name is zw-player",
   "main": "player.vue",
   "files": [
