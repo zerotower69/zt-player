@@ -7,9 +7,11 @@
             musicAlertVal
           }}</span>
         </transition>
+        <!-- close button -->
         <div class="list_close" @click="DisList">x</div>
         <div class="music_list">
-          <div class="list_l">
+          <div class="list_l" ref="listContainer">
+            <!-- 可选的音乐类型 -->
             <ul class="music_type">
               <li
                 v-for="item in musicTypeList"
@@ -20,7 +22,7 @@
                 {{ item.name }}
               </li>
             </ul>
-            <div class="list_title">
+            <div class="list_title" ref="titleOne">
               <span style="font-size: 14px">歌曲列表</span>
               <img
                 :src="musicStateButton"
@@ -51,14 +53,14 @@
                 </transition>
               </div>
             </div>
-            <div class="music_ul_title">
+            <div class="music_ul_title" ref="titleTwo">
               <span>歌曲</span><span>歌手</span><span>专辑</span>
             </div>
-            <ul class="list">
+            <ul class="list" :style="{ maxHeight: pageMaxList * 60 + 'px' }">
               <li
                 v-for="(item, index) in thisMusicList"
                 @mouseover="ButtonActive(index)"
-                @dblclick="ListPlay((thisListPage - 1) * 10 + index)"
+                @dblclick="ListPlay((thisListPage - 1) * pageMaxList + index)"
                 :key="item.id"
               >
                 <div
@@ -95,15 +97,13 @@
                 class="page_last"
                 v-if="thisListPage != 1"
                 @click="ListChange(true)"
-              >
-                <
-              </div>
+              >上一页</div>
               <div
                 class="page_next"
                 v-if="thisListPage != Math.ceil(musicList.length / 10)"
                 @click="ListChange(false)"
               >
-                >
+                下一页
               </div>
             </div>
           </div>
@@ -255,10 +255,13 @@ export default {
       musicAlertVal: "",
       musicAlertState: false,
       musicAlertTimer: "",
+      pageMaxList: 7, //每页最大的
     };
   },
   mounted() {
     this.Player();
+    // this.computePageMaxList();
+    // window.addEventListener("resize", this.computePageMaxList());
   },
   created() {
     this._getMusicType(this.musicTypeList[0].id);
@@ -266,7 +269,10 @@ export default {
   },
   computed: {
     thisMusicList() {
-      return [...this.musicList].splice((this.thisListPage - 1) * 10, 10); //分页
+      return [...this.musicList].splice(
+        (this.thisListPage - 1) * this.pageMaxList,
+        this.pageMaxList
+      ); //分页
     },
   },
   watch: {
@@ -295,6 +301,12 @@ export default {
         "%c音乐播放器原作者----仲威，博客地址：https://blogme.top",
         "background-color:rgb(30,30,30);border-radius:4px;font-size:12px;padding:4px;color:rgb(220,208,129);"
       );
+    },
+    computePageMaxList() {
+      console.log(this.$refs.listContainer);
+      this.pageMaxList =
+        Math.floor(parseInt(this.$refs.listContainer.offsetHeight - 80) / 60) -
+        1;
     },
     MusicAlert(val) {
       this.musicAlertState = true;
@@ -334,6 +346,7 @@ export default {
       this.listIsDis = this.listIsDis ? false : true;
     },
     ListChange(isLast) {
+      console.log("页数调整");
       if (isLast) {
         this.thisListPage--;
       } else {
