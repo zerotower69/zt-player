@@ -187,9 +187,7 @@ import {
   getWords,
   getMusicInfo,
   getMusicUrl,
-  getSongDetail,
   getSearchSuggest,
-  getNewSongs,
   getPlayListDetail,
 } from "./api/music";
 import pan from "./img/pan.png";
@@ -202,6 +200,13 @@ import state0 from "./img/state_0.png";
 import state1 from "./img/state_1.png";
 import $ from "jquery";
 export default {
+  props: {
+    //可以使用自己的服务器地址
+    baseUrl: {
+      type: String,
+      default: "https://music.zerotower.cn",
+    },
+  },
   name: "Player",
   data() {
     return {
@@ -269,7 +274,7 @@ export default {
       if (this.musicSearchVal == "") {
         this.musicSearchList = [];
       } else {
-        getSearchSuggest(this.musicSearchVal).then((res) => {
+        getSearchSuggest(this.baseUrl, this.musicSearchVal).then((res) => {
           if (res.data.result.songs == undefined) {
             this.musicSearchList = [];
           } else {
@@ -301,7 +306,7 @@ export default {
       }, 2000);
     },
     ListAdd(obj) {
-      getMusicInfo(obj.id).then((res) => {
+      getMusicInfo(this.baseUrl, obj.id).then((res) => {
         this.musicSearchVal = "";
         if (this.myMusicList.length == 0) {
           this.myMusicList = [res.data.songs[0]];
@@ -386,7 +391,7 @@ export default {
                        日本:8
                        韩国:16
                      */
-          getPlayListDetail(id).then((res) => {
+          getPlayListDetail(this.baseUrl, id).then((res) => {
             this.musicList = res.data.playlist.tracks || [];
             this.thisMusicType = id; //这是什么类型的音乐
             this.thisMusicIndex = 0;
@@ -405,50 +410,56 @@ export default {
       }
     },
     _getInfo() {
-      getMusicUrl(this.musicList[this.thisMusicIndex].id).then((res) => {
-        if (
-          res.data.data[0].url == null ||
-          res.data.data[0].url == "" ||
-          res.data.data[0].url == undefined
-        ) {
-          if (this.notPlay.length != this.musicList.length) {
-            let nextIndex = this.thisMusicIndex + 1;
-            if (this.notPlay.indexOf(this.thisMusicIndex) == -1) {
-              this.notPlay.push(this.thisMusicIndex);
-            }
-            this.MusicAlert(
-              `${this.musicList[this.thisMusicIndex].name}因为一些原因不能播放`
-            );
-            this.ListPlay(nextIndex); //寻找下一首歌  直到找到
+      getMusicUrl(this.baseUrl, this.musicList[this.thisMusicIndex].id).then(
+        (res) => {
+          if (
+            res.data.data[0].url == null ||
+            res.data.data[0].url == "" ||
+            res.data.data[0].url == undefined
+          ) {
+            if (this.notPlay.length != this.musicList.length) {
+              let nextIndex = this.thisMusicIndex + 1;
+              if (this.notPlay.indexOf(this.thisMusicIndex) == -1) {
+                this.notPlay.push(this.thisMusicIndex);
+              }
+              this.MusicAlert(
+                `${
+                  this.musicList[this.thisMusicIndex].name
+                }因为一些原因不能播放`
+              );
+              this.ListPlay(nextIndex); //寻找下一首歌  直到找到
 
-            //提示这首歌不能放
-          } else {
-            //遍历完没有找到
-            console.log("not");
-            this.MusicAlert("此列表所有歌都不能播放");
-          }
-        } else {
-          this.musicUrl = res.data.data[0].url.replace("http://", "https://");
-          this.musicImg =
-            this.musicList[this.thisMusicIndex].al.picUrl.replace(
-              "http://",
-              "https://"
-            ) + "?param=300y300";
-          this.musicTitle = this.musicList[this.thisMusicIndex].name;
-          let name_arr = [];
-          this.musicList[this.thisMusicIndex].ar.forEach((i) => {
-            name_arr.push(i.name);
-          });
-          this.musicName = name_arr.join("/");
-          getWords(this.musicList[this.thisMusicIndex].id).then((res) => {
-            if (!res.data.nolyric) {
-              let info = this.Cut(res.data.lrc.lyric);
-              this.musicWords = info.wordArr;
-              this.wordsTime = info.timeArr;
+              //提示这首歌不能放
+            } else {
+              //遍历完没有找到
+              console.log("not");
+              this.MusicAlert("此列表所有歌都不能播放");
             }
-          });
+          } else {
+            this.musicUrl = res.data.data[0].url.replace("http://", "https://");
+            this.musicImg =
+              this.musicList[this.thisMusicIndex].al.picUrl.replace(
+                "http://",
+                "https://"
+              ) + "?param=300y300";
+            this.musicTitle = this.musicList[this.thisMusicIndex].name;
+            let name_arr = [];
+            this.musicList[this.thisMusicIndex].ar.forEach((i) => {
+              name_arr.push(i.name);
+            });
+            this.musicName = name_arr.join("/");
+            getWords(this.baseUrl, this.musicList[this.thisMusicIndex].id).then(
+              (res) => {
+                if (!res.data.nolyric) {
+                  let info = this.Cut(res.data.lrc.lyric);
+                  this.musicWords = info.wordArr;
+                  this.wordsTime = info.timeArr;
+                }
+              }
+            );
+          }
         }
-      });
+      );
     },
     Ltrim(s) {
       return s.replace(/(^\s*)/g, "");

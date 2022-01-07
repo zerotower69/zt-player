@@ -1,0 +1,22 @@
+-------------------- Auto-Git Log --------------------
+		Fri Jan 07 2022 17:17:30 GMT+0800 (中国标准时间)
+------------------------------------------------------
+
+Modified files:
+* .env.development
+* .env.production
+* api/music.js
+* examples/App.vue
+* package.json
+* player.css
+* webpack.config.js
+
+
+Created files:
+* .autogit/logs/log-31-11-2021-17-7-58.txt
+
+
+Deleted files:
+
+
+Renamed files:

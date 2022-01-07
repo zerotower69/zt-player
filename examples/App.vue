@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <player></player>
+    <player base-url="http://localhost:3000"></player>
   </div>
 </template>
 
